@@ -13,13 +13,33 @@ class AllBoulders(APIView):
         serializer=BoulderSerializer(boulders,many=True)
         return Response({'boulders':serializer.data})
 
+    def post(self, request):
+        boulder=request.data
+        serializer=BoulderSerializer(data=boulder)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'Boulder added'})
+        else:return Response({'Boulder not added'})
+
 class BoulderById(APIView):
     def get(self,request,id):
         get_object_or_404(Boulder,id=id)
         boulder=Boulder.objects.get(id=id)
         serializer=BoulderSerializer(boulder)
         return Response({'boulder':serializer.data})
-
+    def patch(self,request,id):
+        get_object_or_404(Boulder,id=id)
+        boulder=Boulder.objects.get(id=id)
+        serializer=BoulderSerializer(instance=boulder,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'Boulder updated'})
+        else: return Response({'Boulder not updated'})
+    def delete(self,request,id):
+        get_object_or_404(Boulder,id=id)
+        boulder=Boulder.objects.get(id=id)
+        boulder.delete()
+        return Response({'Boulder removed'})
 class BouldersByGrade(APIView):
     def get(self,request,boulder_grade):
         boulders=Boulder.objects.filter(boulder_grade__boulder_grade=boulder_grade)
@@ -72,7 +92,7 @@ class BouldersByName(APIView):
 
 class BouldersBySafetyLocationSector(APIView):
     def get(self,request,boulder_safety,boulder_location,boulder_sector):
-        boulders=Boulder.objects.filtere(boulder_safety__safety_grade=boulder_safety,boulder_sector__sector_name=boulder_sector,boulder_location__location_name=boulder_location)
+        boulders=Boulder.objects.filter(boulder_safety__safety_grade=boulder_safety,boulder_sector__sector_name=boulder_sector,boulder_location__location_name=boulder_location)
         serializer=BoulderSerializer(boulders,many=True)
         return Response({'boulders':serializer.data})
 
@@ -113,6 +133,13 @@ class AllBoulderFinders(APIView):
         boulder_finders=BoulderFinder.objects.all()
         serializer=BoulderFinderSerializer(boulder_finders,many=True)
         return Response({'boulders finders':serializer.data})
+    def post(self, request):
+        boulder_finder=request.data
+        serializer=BoulderFinderSerializer(data=boulder_finder)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'Finder added'})
+        else:return Response({'Finder not added'})
 
 class BoulderFinderById(APIView):
     def get(self,request,id):
@@ -120,7 +147,19 @@ class BoulderFinderById(APIView):
         boulder_finder=BoulderFinder.objects.get(id=id)
         serializer=BoulderFinderSerializer(boulder_finder)
         return Response({'boulder_finder':serializer.data})
-
+    def patch(self,request,id):
+        get_object_or_404(BoulderFinder,id=id)
+        boulder_finder=BoulderFinder.objects.get(id=id)
+        serializer=BoulderFinderSerializer(instance=boulder_finder,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'Finder saved'})
+        else: return Response({'Finder not saved'})
+    def delete(self,request,id):
+        get_object_or_404(BoulderFinder,id=id)
+        boulder_finder=BoulderFinder.objects.get(id=id)
+        boulder_finder.delete()
+        return Response({'Finder removed'})
 class BoulderFinderByName(APIView):
     def get(self,request,finder_name):
         get_object_or_404(BoulderFinder,finder_name=finder_name)
@@ -135,6 +174,14 @@ class BoulderSectorAll(APIView):
         sectors=BoulderSector.objects.all()
         serializer=BoulderSectorSerializer(sectors,many=True)
         return Response({'sectors':serializer.data})
+    def post(self,request):
+        sector=request.data
+        serializer=BoulderSectorSerializer(data=sector)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'sector added'})
+        else:return Response({'sector not added'})
+
 
 class BoulderSectorByLocation(APIView):
     def get(self,request,location_name):
@@ -149,12 +196,24 @@ class BoulderSectorByName(APIView):
         return Response({'sectors':serializer.data})
 
 class BoulderSectorById(APIView):
-    def get(self,request,sector_id):
-        get_object_or_404(BoulderSector,id=sector_id)
-        sector=BoulderSector.objects.get(id=sector_id)
+    def get(self,request,id):
+        get_object_or_404(BoulderSector,id=id)
+        sector=BoulderSector.objects.get(id=id)
         serializer=BoulderSectorSerializer(sector)
         return Response({'sector':serializer.data})
-
+    def patch(self,request,id):
+        get_object_or_404(BoulderSector,id=id)
+        sector=BoulderSector.objects.get(id=id)
+        serialiezr=BoulderSectorSerializer(instance=sector,data=request.data)
+        if serialiezr.is_valid():
+            serialiezr.save()
+            return Response({'Sector updated'})
+        else:return Response({'Sector not updated'})
+    def delete(self,request,id):
+        get_object_or_404(BoulderSector,id=id)
+        sector=BoulderSector.objects.get(id=id)
+        sector.delete()
+        return Response({'Sector removed'})
 #LOCATIONS
 
 class BoulderLocationAll(APIView):
@@ -177,6 +236,12 @@ class BoulderSafetyAll(APIView):
         safety_grades=BoulderSafety.objects.all()
         serializer=BoulderSafetySerializer(safety_grades,many=True)
         return Response({'safety_grades':serializer.data})
+    def post(self,request):
+        serializer = BoulderSafetySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'safety grade added'})
+        else:return Response({'safety grade not added'})
 
 class BoulderSafetyByGrade(APIView):
     def get(self,request,safety_grade):
@@ -184,6 +249,26 @@ class BoulderSafetyByGrade(APIView):
         safety_grade=BoulderSafety.objects.get(safety_grade=safety_grade)
         serializer=BoulderSafetySerializer(safety_grade)
         return Response({'safety_grade':serializer.data})
+class BoulderSafetyById(APIView):
+    def get(self,request,id):
+        get_object_or_404(BoulderSafety,id=id)
+        safety_grade=BoulderSafety.objects.get(id=id)
+        serializer=BoulderSafetySerializer(safety_grade)
+        return  Response({'safety_grade':serializer.data})
+    def patch(self,request,id):
+        get_object_or_404(BoulderSafety,id=id)
+        safety_grade=BoulderSafety.objects.get(id=id)
+        serializer=BoulderSafetySerializer(instance=safety_grade,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response('safety grade saved')
+        else: return Response('safety grade not saved')
+
+    def delete(self,request,id):
+        get_object_or_404(BoulderSafety,id=id)
+        safety_grade=BoulderSafety.objects.get(id=id)
+        safety_grade.delete()
+        return Response('safety grade removed')
 
 #GRADES
 
@@ -192,10 +277,34 @@ class BoulderGradeAll(APIView):
         grades=BoulderGrade.objects.all()
         serializer=BoulderGradeSerializer(grades,many=True)
         return Response({'grades':serializer.data})
-
+    def post(self,request):
+        serializer=BoulderGradeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response('grade added')
+        else:return Response('grade not added')
 class BoulderGradeByGrade(APIView):
     def get(self,request,boulder_grade):
         get_object_or_404(BoulderGrade,boulder_grade=boulder_grade)
         grade=BoulderGrade.objects.all(boulder_grade=boulder_grade)
         serializer=BoulderGradeSerializer(grade)
         return Response({'grade':serializer.data})
+class BoulderGradeById(APIView):
+    def get(self,request,id):
+        get_object_or_404(BoulderGrade,id)
+        boulder_grade=BoulderGrade.objects.get(id=id)
+        serializer=BoulderGradeSerializer(boulder_grade)
+        return Response({'grade':serializer.data})
+    def patch(self,request,id):
+        get_object_or_404(BoulderGrade,id)
+        boulder_grade=BoulderGrade.objects.get(id=id)
+        serializer=BoulderGradeSerializer(instance=boulder_grade,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response('grade saved')
+        else:return Response('grade not saved')
+    def delete(self,request,id):
+        get_object_or_404(BoulderGrade,id)
+        boulder_grade=BoulderGrade.objects.get(id=id)
+        boulder_grade.delete()
+        return Response('grade removed')
