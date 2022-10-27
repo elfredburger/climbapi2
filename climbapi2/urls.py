@@ -49,6 +49,7 @@ urlpatterns = [
     path('api/v1/safetygrade/id=<int:id>',views.BoulderSafetyById.as_view()),
     path('api/v1/grades',views.BoulderGradeAll.as_view()),
     path('api/v1/grade/grade=<str:boulder_grade',views.BoulderGradeByGrade.as_view()),
+    path('api/v1/grade/id=<int:id>', views.BoulderGradeById.as_view()),
     path('api/v1/users',views2.UserAll.as_view()),
     path('api/v1/username=<str:username>/climbed',views2.UsersClimedBoulder.as_view()),
     path('api/v1/username=<str:username>/fa',views2.UserFaBoulders.as_view()),
