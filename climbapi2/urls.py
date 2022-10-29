@@ -59,6 +59,7 @@ urlpatterns = [
     path('api/v1/users/firstname=<str:user_first_name>', views2.UsersByFirstName.as_view()),
     path('api/v1/user/username=<str:username>',views2.UserByUsername.as_view()),
     path('api/v1/user/email=<str:user_email>',views2.UserByEmail.as_view()),
-    path('api/v1/users/firstname=<str:user_first_name>&secondname=<str:user_second_name>',views2.UserByFullName.as_view())
+    path('api/v1/users/firstname=<str:user_first_name>&secondname=<str:user_second_name>',views2.UserByFullName.as_view()),
+    path('api/v1/users/id=<int:id>',views2.UserById.as_view())
 
 ]
