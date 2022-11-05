@@ -12,11 +12,12 @@ class UserAll(APIView):
         serializer=AppUserSerializer(users,many=True)
         return Response({'users':serializer.data})
     def post(self,request):
-        serializer=AppUserSerializer(request.data)
-        if serializer.is_valid():
+        serializer=AppUserSerializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response('User added')
-        else:return Response('user not added')
+
 
 class UsersClimedBoulder(APIView):
     def get(self,request,username):
@@ -84,10 +85,9 @@ class UserById(APIView):
         get_object_or_404(AppUser,id=id)
         user=AppUser.objects.get(id=id)
         serializer=AppUserSerializer(instance=user,data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response('User saved')
-        else: return Response('User not saved')
     def delete(self,request,id):
         get_object_or_404(AppUser,id)
         user=AppUser.objects.get(id=id)

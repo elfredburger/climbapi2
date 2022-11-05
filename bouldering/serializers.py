@@ -1,21 +1,32 @@
 from rest_framework import serializers
 from bouldering import models
+from django.core import validators
 
 class BoulderLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.BoulderLocation
         fields='__all__'
+        extra_kwargs={'location_name':{'required':True,
+                                       'validators':[validators.MaxLengthValidator(50),
+                                                     validators.MinLengthValidator(2)]},
+                      'location_info':{'required':True,
+                                       'validators':[validators.MaxLengthValidator(400),
+                                                     validators.MinLengthValidator(10)]}}
+
 
 class BoulderFinderSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.BoulderFinder
         fields='__all__'
+        extra_kwargs={'finder_name':{'required':True,
+                                     'validators':[validators.MaxLengthValidator(30),
+                                     ]}}
 
 class BoulderGradeSerializer(serializers.ModelSerializer):
     class Meta:
         grade=serializers.RelatedField(source='boulder_grade',read_only=True)
         model=models.BoulderGrade
-        fields=('boulder_grade','grade')
+        fields='__all__'
 
 class BoulderSafetySerializer(serializers.ModelSerializer):
      class Meta:

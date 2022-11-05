@@ -17,17 +17,17 @@ class BoulderFinder(models.Model):
 
 
 class BoulderGrade(models.Model):
-    boulder_grade=models.CharField(max_length=10,verbose_name='grade',blank=False,unique=True)
+    boulder_grade=models.CharField(max_length=10,blank=False,unique=True)
 
     def __str__(self):
         return self.boulder_grade
 
 
 class BoulderSafety(models.Model):
-    safety_grade=models.CharField(max_length=50,default=1,verbose_name='safety grade',blank=False,unique=True)
+    safety_grade=models.IntegerField(choices=[(i,i) for i in range(11)],unique=True)
 
     def __str__(self):
-        return self.safety_grade
+        return str(self.safety_grade)
 
 
 class BoulderSector(models.Model):
