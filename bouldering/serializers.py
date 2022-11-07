@@ -14,13 +14,6 @@ class BoulderLocationSerializer(serializers.ModelSerializer):
                                                      validators.MinLengthValidator(10)]}}
 
 
-class BoulderFinderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=models.BoulderFinder
-        fields='__all__'
-        extra_kwargs={'finder_name':{'required':True,
-                                     'validators':[validators.MaxLengthValidator(30),
-                                     ]}}
 
 class BoulderGradeSerializer(serializers.ModelSerializer):
     class Meta:

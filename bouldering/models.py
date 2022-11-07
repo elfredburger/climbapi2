@@ -1,5 +1,6 @@
 from django.db import models
 # Create your models here.
+from django.contrib.auth.models import User
 
 class BoulderLocation(models.Model):
     location_name=models.CharField(max_length=50,default=1,verbose_name='location name',blank=False,unique=True)
@@ -9,11 +10,9 @@ class BoulderLocation(models.Model):
         return self.location_name
 
 
-class BoulderFinder(models.Model):
-    finder_name=models.CharField(max_length=30,default=1,verbose_name='finder of the route',blank=False,unique=True)
 
-    def __str__(self):
-        return self.finder_name
+
+
 
 
 class BoulderGrade(models.Model):
@@ -41,7 +40,7 @@ class BoulderSector(models.Model):
 
 class Boulder(models.Model):
     boulder_name=models.CharField(max_length=50,verbose_name='boulder name',blank=False)
-    boulder_finder=models.ForeignKey(BoulderFinder,blank=True,null=True,verbose_name='boulder finder',on_delete=models.SET_DEFAULT,default=1)
+    boulder_finder=models.ForeignKey(User,blank=True,null=True,verbose_name='boulder finder',on_delete=models.SET_DEFAULT,default=1)
     boulder_grade=models.ForeignKey(BoulderGrade,blank=False,verbose_name='boulder grade',on_delete=models.SET_DEFAULT,default=1)
     boulder_safety=models.ForeignKey(BoulderSafety,blank=False,verbose_name='boulder safety level', on_delete=models.SET_DEFAULT,default=1)
     boulder_sector=models.ForeignKey(BoulderSector,null=True,blank=True,verbose_name='sector where boulder is located',on_delete=models.SET_DEFAULT,default=1)
