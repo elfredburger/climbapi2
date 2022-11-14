@@ -21,7 +21,10 @@ from users import views as views2
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/boulders/', views.AllBoulders.as_view()),
+    path('api/v1/boulders_user',views.BouldersByUser.as_view()),
     path('api/v1/boulder/id=<int:id>', views.BoulderById.as_view()),
+    path('api/v1/boulder/uber/id=<int:id>', views.BoulderByIdUber.as_view()),
+
     path('api/v1/boulders/grade=<str:boulder_grade>', views.BouldersByGrade.as_view()),
     path('api/v1/boulders/grade=<str:boulder_grade>/location=<str:boulder_location>',
          views.BouldersByGradeLocation.as_view()),
@@ -49,6 +52,7 @@ urlpatterns = [
     path('api/v1/sectors/location=<str:location_name>', views.BoulderSectorByLocation.as_view()),
     path('api/v1/sectors/sector=<str:sector_name>', views.BoulderSectorByName.as_view()),
     path('api/v1/sector/id=<int:id>', views.BoulderSectorById.as_view()),
+    path('api/v1/sector/uber/id=<int:id>', views.BoulderSectorByIdUber.as_view()),
 
     path('api/v1/locations', views.BoulderLocationAll.as_view()),
     path('api/v1/locations/name=<str:location_name>', views.BoulderLocationByName.as_view()),
@@ -56,14 +60,16 @@ urlpatterns = [
     path('api/v1/safetygrades', views.BoulderSafetyAll.as_view()),
     path('api/v1/safetygrade/safety=<str:safety_grade>', views.BoulderSafetyByGrade.as_view()),
     path('api/v1/safetygrade/id=<int:id>', views.BoulderSafetyById.as_view()),
+    path('api/v1/safetygrade/uber/id=<int:id>', views.BoulderSafetyByIdUber.as_view()),
 
     path('api/v1/grades', views.BoulderGradeAll.as_view()),
     path('api/v1/grade/grade=<str:boulder_grade', views.BoulderGradeByGrade.as_view()),
     path('api/v1/grade/id=<int:id>', views.BoulderGradeById.as_view()),
+    path('api/v1/grade/uber/id=<int:id>', views.BoulderGradeByIdUber.as_view()),
 
     path('api/v1/users', views2.UserAll.as_view()),
     path('api/vq/users/username=<str:username>', views2.UserByUsername.as_view()),
-    path('api/v1/user/email=<str:email>', views2.UserByEmail),
+    path('api/v1/user/email=<str:email>', views2.UserByEmail.as_view()),
     path('api/v1/user/id=<int:id>', views2.UserById.as_view()),
     path('api/v1/users/first_name=<str:first_name>', views2.UsersByFirstName.as_view()),
     path('api/v1/users/last_name=<str:last_name>', views2.UsersByLastName.as_view()),

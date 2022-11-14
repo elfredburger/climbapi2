@@ -5,9 +5,11 @@ from django.shortcuts import get_object_or_404
 from .models import AppUser
 from django.contrib.auth.models import User
 from users.serializers import UserSerializer, AppUserSerializer
+from bouldering.views import IsAuth,IsUber
 
 
 class UserAll(APIView):
+    permission_classes = [IsUber]
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
@@ -22,6 +24,8 @@ class UserAll(APIView):
 
 
 class UserByUsername(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, username):
         get_object_or_404(User, username=username)
         user = User.objects.get(username=username)
@@ -30,6 +34,8 @@ class UserByUsername(APIView):
 
 
 class UserByEmail(APIView):
+    permission_classes = [IsUber]
+
     def get(self, request, email):
         get_object_or_404(User, email=email)
         users = User.objects.get(email=email)
@@ -38,6 +44,8 @@ class UserByEmail(APIView):
 
 
 class UserById(APIView):
+    permission_classes = [IsUber]
+
     def get(self, request, id):
         user = User.objects.get(id=id)
         serializer = UserSerializer(user)
@@ -59,6 +67,8 @@ class UserById(APIView):
 
 
 class UsersByLastName(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, last_name):
         users = User.objects.filter(last_name=last_name)
         serializer = UserSerializer(users, many=True)
@@ -66,6 +76,8 @@ class UsersByLastName(APIView):
 
 
 class UsersByFirstName(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, first_name):
         users = User.objects.filter(first_name=first_name)
         serializer = UserSerializer(users, many=True)
@@ -73,6 +85,8 @@ class UsersByFirstName(APIView):
 
 
 class UsersByFullName(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, first_name, last_name):
         users = User.objects.filter(first_name=first_name, last_name=last_name)
         serializer = UserSerializer(users, many=True)
@@ -83,11 +97,12 @@ class UsersByFullName(APIView):
 
 
 class AppUsers(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request):
         users = AppUser.objects.all()
         serializer = AppUserSerializer(users, many=True)
         return Response({'users': serializer.data})
-
     def post(self, request):
         data = request.data
         data['user'] = self.request.user.id  # using user loged in id to change model
@@ -98,6 +113,8 @@ class AppUsers(APIView):
 
 
 class UsersClimedBoulder(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, user_id):
         boulders = AppUser.objects.filter(user__id=user_id).valueslist('user_climbed_boulders')
         serializer = AppUserSerializer(boulders, many=True)
@@ -106,6 +123,8 @@ class UsersClimedBoulder(APIView):
 
 
 class UserFaBoulders(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, user_id):
         boulders = AppUser.objects.filter(user__id=user_id).values('user_fa_boulders')
         serializer = AppUserSerializer(boulders, many=True)
@@ -113,6 +132,8 @@ class UserFaBoulders(APIView):
 
 
 class UserFavoriteBoulders(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, user_id):
         boulders = AppUser.objects.filter(user__id=user_id).values('user_favorite_boulders')
         serializer = AppUserSerializer(boulders, many=True)
@@ -120,6 +141,8 @@ class UserFavoriteBoulders(APIView):
 
 
 class UserFoundBoulders(APIView):
+    permission_classes = [IsAuth]
+
     def get(self, request, user_id):
         boulders = AppUser.objects.filter(user__id=user_id).values('user_found_boulders')
         serializer = AppUserSerializer(boulders, many=True)
