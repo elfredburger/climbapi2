@@ -287,8 +287,8 @@ class BoulderSafetyByIdAdmin(generics.RetrieveUpdateDestroyAPIView,generics.List
 
 # GRADES
 
-class BoulderGradeAll(generics.ListAPIView):
-    permission_classes = [IsAuth]
+class BoulderGradeAll(generics.ListCreateAPIView):
+    
     serializer_class = BoulderGradeSerializer
 
     def get_queryset(self):

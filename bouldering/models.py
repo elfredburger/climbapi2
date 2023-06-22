@@ -51,6 +51,14 @@ class BoulderSector(models.Model):
 
 
 class Boulder(models.Model):
+    def __str__(self):
+        return self.boulder_name
+    def get_boulder_name(self):
+        return str(self.boulder_name)
+    class Meta:
+        verbose_name='Boulder'
+        verbose_name_plural='Boulders'
+
     boulder_name=models.CharField(max_length=50,verbose_name='boulder name',blank=False)
     boulder_finder=models.ForeignKey(User,blank=True,null=True,verbose_name='boulder finder',on_delete=models.SET_DEFAULT,default=1)
     boulder_grade=models.ForeignKey(BoulderGrade,blank=False,verbose_name='boulder grade',on_delete=models.SET_DEFAULT,default=1)
@@ -60,9 +68,4 @@ class Boulder(models.Model):
     boulder_coords = models.URLField(max_length=1000, blank=True, verbose_name='Ссылка на локацию трассы', help_text='Принимаются метки с гугл карт', null=True)
     boulder_info=models.CharField(max_length=300,blank=True,null=True,verbose_name='information about a boulder',default='no information')
     boulder_location=models.ForeignKey(BoulderLocation,blank=False,verbose_name='boulder location',on_delete=models.SET_DEFAULT,default=1)
-    def __str__(self):
-        return self.boulder_name
-
-    class Meta:
-        verbose_name='Boulder'
-        verbose_name_plural='Boulders'
+    

@@ -64,7 +64,7 @@ urlpatterns = [
     path('api/v1/admin/safetygrade/id=<int:id>',views.BoulderSafetyByIdAdmin.as_view()),
 
 
-    path('api/v1/grades', views.BoulderGradeAll.as_view()), # list of all safety grades List
+    path('api/v1/grades', views.BoulderGradeAll.as_view()), # list of all safety grades ListCreate
     path('api/v1/grade/id=<int:id>', views.BoulderGradeById.as_view()), # boulder grade by id List
     path('api/v1/admin/grade/id=<int:id>', views.BoulderGradeByIdAdmin.as_view()), # boulder grade by id for admin RetriveUpdateDestroy
 
