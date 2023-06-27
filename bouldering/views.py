@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from bouldering.models import BoulderLocation, BoulderSector, BoulderSafety, BoulderGrade, Boulder
+from bouldering.models import BoulderLocation, BoulderSector, BoulderSafety, BoulderGrade,BoulderPhoto, Boulder
 from bouldering.serializers import BoulderSerializer, BoulderGradeSerializer, BoulderSafetySerializer, \
-    BoulderSectorSerializer, BoulderLocationSerializer
+    BoulderSectorSerializer, BoulderLocationSerializer,BoulderPhotoSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -12,6 +12,8 @@ from rest_framework import mixins
 class IsAuth(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(request.user.is_authenticated)
+
+
 class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(request.user.is_superuser)
@@ -237,6 +239,8 @@ class BoulderSectorByIdAdmin(generics.RetrieveUpdateDestroyAPIView):
 
 # LOCATIONS
 
+
+
 class BoulderLocationAll(generics.ListCreateAPIView):
     permission_classes = [IsAuth]
     serializer_class = BoulderLocationSerializer
@@ -288,6 +292,7 @@ class BoulderSafetyByIdAdmin(generics.RetrieveUpdateDestroyAPIView,generics.List
 # GRADES
 
 class BoulderGradeAll(generics.ListCreateAPIView):
+    permission_classes = [IsAuth]
     
     serializer_class = BoulderGradeSerializer
 
@@ -308,4 +313,17 @@ class BoulderGradeByIdAdmin(generics.RetrieveUpdateDestroyAPIView,generics.ListC
     def get_queryset(self):
         return BoulderGrade.objects.filter(id=self.kwargs['id'])
 
+#Photos
 
+class BoulderPhotos(generics.ListAPIView):
+    permission_classes=[IsAuth]
+    serializer_class=BoulderPhotoSerializer
+    def get_queryset(self):
+        return BoulderPhoto.objects.all()
+        
+class BoulderPhotoById(generics.ListAPIView):
+    permission_classes=[IsAuth]
+    serializer_class=BoulderPhotoSerializer
+    lookup_field='id'
+    def get_queryset(self):
+        return BoulderPhoto.objects.filter(id=self.kwargs['id'])

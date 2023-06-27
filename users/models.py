@@ -5,7 +5,7 @@ from django import forms
 from datetime import date
 
 
-        #THIS CUSTOM USER MODEL TO BE IMPLEMENTED
+        # CUSTOM USER MODEL TO BE IMPLEMENTED
 
 class AppUser(models.Model):
     ROLES=()

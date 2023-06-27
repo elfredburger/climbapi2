@@ -48,6 +48,12 @@ class BoulderSector(models.Model):
     class Meta:
         verbose_name='Sector'
         verbose_name_plural='Sectors'
+        
+class BoulderPhoto(models.Model):
+    class Meta:
+        verbose_name='Boulder Photo'
+        verbose_name_plural='Boulder Photos'
+    photo =  models.ImageField(upload_to='static/boulders/images/', null=True, blank=True,verbose_name="Фото")
 
 
 class Boulder(models.Model):
@@ -59,13 +65,15 @@ class Boulder(models.Model):
         verbose_name='Boulder'
         verbose_name_plural='Boulders'
 
+
+
     boulder_name=models.CharField(max_length=50,verbose_name='boulder name',blank=False)
     boulder_finder=models.ForeignKey(User,blank=True,null=True,verbose_name='boulder finder',on_delete=models.SET_DEFAULT,default=1)
     boulder_grade=models.ForeignKey(BoulderGrade,blank=False,verbose_name='boulder grade',on_delete=models.SET_DEFAULT,default=1)
     boulder_safety=models.ForeignKey(BoulderSafety,blank=False,verbose_name='boulder safety level', on_delete=models.SET_DEFAULT,default=1)
     boulder_sector=models.ForeignKey(BoulderSector,null=True,blank=True,verbose_name='sector where boulder is located',on_delete=models.SET_DEFAULT,default=1)
-    boulder_photo = models.ImageField(upload_to='static/boulders/images/', null=True, blank=True,verbose_name="Фото")
     boulder_coords = models.URLField(max_length=1000, blank=True, verbose_name='Ссылка на локацию трассы', help_text='Принимаются метки с гугл карт', null=True)
+    boulder_photos=models.ManyToManyField(BoulderPhoto)
     boulder_info=models.CharField(max_length=300,blank=True,null=True,verbose_name='information about a boulder',default='no information')
     boulder_location=models.ForeignKey(BoulderLocation,blank=False,verbose_name='boulder location',on_delete=models.SET_DEFAULT,default=1)
-    
+

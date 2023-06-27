@@ -69,17 +69,21 @@ urlpatterns = [
     path('api/v1/admin/grade/id=<int:id>', views.BoulderGradeByIdAdmin.as_view()), # boulder grade by id for admin RetriveUpdateDestroy
 
     path('api/v1/users', views2.UserAll.as_view()),#List of all users ListCreate
-    path('api/vq/users/username=<str:username>', views2.UserByUsername.as_view()),# User by username List
+    path('api/v1/users/username=<str:username>', views2.UserByUsername.as_view()),# User by username List
     path('api/v1/user/email=<str:email>', views2.UserByEmail.as_view()),#User by email List
-    path('api/v1/user/id=<int:id>', views2.UserById.as_view()), # User by Id Retriveupdatedestroy Listcreate
-    path('api/v1/users/first_name=<str:first_name>', views2.UsersByFirstName.as_view()),
-    path('api/v1/users/last_name=<str:last_name>', views2.UsersByLastName.as_view()),
-    path('api/v1/users/first_name=<str:first_name>&last_name=<str:last_name>', views2.UsersByFullName.as_view()),
+    path('api/v1/user/id=<int:id>', views2.UserById.as_view()), # User by Id Retriveupdatedestroy 
+    path('api/v1/users/first_name=<str:first_name>', views2.UsersByFirstName.as_view()), # Users by first_name List
+    path('api/v1/users/last_name=<str:last_name>', views2.UsersByLastName.as_view()),# Users by last_name List
+    path('api/v1/users/first_name=<str:first_name>/last_name=<str:last_name>', views2.UsersByFullName.as_view()), # Users by first_name and last_name List
 
-    path('api/v1/users_info', views2.AppUsers.as_view()),
-    path('api/v1/user_climbed/id=<int:user_id>', views2.UsersClimedBoulder.as_view()),
-    path('api/v1/user_fa/id=<int:user_id>', views2.UserFaBoulders.as_view()),
-    path('api/v1/user_fav/id=<int:user_id>', views2.UserFavoriteBoulders.as_view()),
-    path('api/v1/user_found/id=<int:user_id>', views2.UserFoundBoulders.as_view()),
-
+    path('api/v1/create_app_user',views2.AppUserCreate.as_view()),
+    path('api/v1/app_users', views2.AppUsers.as_view()),
+    path('api/v1/app_user/id=<int:id>',views2.AppUserById.as_view()),
+    path('api/v1/user_climbed/id=<int:id>', views2.UsersClimedBoulder.as_view()),
+    path('api/v1/user_fa/id=<int:id>', views2.UserFaBoulders.as_view()),
+    path('api/v1/user_fav/id=<int:id>', views2.UserFavoriteBoulders.as_view()),
+    path('api/v1/user_found/id=<int:id>', views2.UserFoundBoulders.as_view()),
+    
+    path('api/v1/get_boulder_photos/id=<int:id>',views.BoulderPhotos.as_view()),
+    path('api/v1/get_boulder_photo/id=<int:id>',views.BoulderPhotoById.as_view())
 ]

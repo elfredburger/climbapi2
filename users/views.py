@@ -23,7 +23,7 @@ class UserByUsername(generics.ListAPIView):
 
     def get_queryset(self):
 
-        return User.objects.get(username=self.kwargs['username'])
+        return User.objects.filter(username=self.kwargs['username'])
 
 
 class UserByEmail(generics.ListAPIView):
@@ -31,9 +31,9 @@ class UserByEmail(generics.ListAPIView):
     serializer_class = UserSerializer
     def get_queryset(self):
 
-        return User.objects.get(email=self.kwargs['email'])
+        return User.objects.filter(email=self.kwargs['email'])
 
-class UserById(generics.RetrieveUpdateDestroyAPIView,generics.ListCreateAPIView):
+class UserById(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdmin]
     serializer_class = UserSerializer
     lookup_field = 'id'
@@ -45,84 +45,77 @@ class UserById(generics.RetrieveUpdateDestroyAPIView,generics.ListCreateAPIView)
 
 
 
-class UsersByLastName(APIView):
+class UsersByLastName(generics.ListAPIView):
     permission_classes = [IsAuth]
+    serializer_class = UserSerializer
+    lookup_field='last_name'
+    def get_queryset(self):
+        return User.objects.filter(last_name=self.kwargs['last_name'])
 
-    def get(self, request, last_name):
-        users = User.objects.filter(last_name=last_name)
-        serializer = UserSerializer(users, many=True)
-        return Response({'users': serializer.data})
 
-
-class UsersByFirstName(APIView):
+class UsersByFirstName(generics.ListAPIView):
     permission_classes = [IsAuth]
+    serializer_class = UserSerializer
+    lookup_field='fisrt_name'
+    def get_queryset(self):
+        return User.objects.filter(first_name=self.kwargs['first_name'])
 
-    def get(self, request, first_name):
-        users = User.objects.filter(first_name=first_name)
-        serializer = UserSerializer(users, many=True)
-        return Response({'users': serializer.data})
 
-
-class UsersByFullName(APIView):
+class UsersByFullName(generics.ListAPIView):
     permission_classes = [IsAuth]
-
-    def get(self, request, first_name, last_name):
-        users = User.objects.filter(first_name=first_name, last_name=last_name)
-        serializer = UserSerializer(users, many=True)
-        return Response({'users': serializer.data})
+    serializer_class = UserSerializer
+    def get_queryset(self):
+        return User.objects.filter(first_name=self.kwargs['first_name'],last_name=self.kwargs['last_name'])
 
 
 # -----------------------------------------------------------------------------------------------------------------------
 
+class AppUserCreate(generics.CreateAPIView):
+    serializer_class=AppUserSerializer
 
-class AppUsers(APIView):
+
+class AppUsers(generics.ListAPIView):
     permission_classes = [IsAuth]
-
-    def get(self, request):
-        users = AppUser.objects.all()
-        serializer = AppUserSerializer(users, many=True)
-        return Response({'users': serializer.data})
-    def post(self, request):
-        data = request.data
-        data['user'] = self.request.user.id  # using user loged in id to change model
-        serializer = AppUserSerializer(data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response('user info updated')
-
+    serializer_class = AppUserSerializer    
+    def get_queryset(self):
+        return AppUser.objects.all()
+    
+class AppUserById(generics.ListAPIView):
+    permission_classes = [IsAuth]
+    serializer_class=AppUserSerializer
+    def get_queryset(self):
+        return AppUser.objects.filter(user=self.kwargs['id'])
 
 class UsersClimedBoulder(APIView):
     permission_classes = [IsAuth]
-
-    def get(self, request, user_id):
-        boulders = AppUser.objects.filter(user__id=user_id).valueslist('user_climbed_boulders')
-        serializer = AppUserSerializer(boulders, many=True)
-        return Response({'climbed_boulders': serializer.data})
-
+    def get(self, request, id):
+        boulders = AppUser.objects.filter(user=id).values('user_complete_boulders')
+        #serializer = AppUserSerializer(boulders, many=True)
+        return Response({'complete_boulders': boulders})
 
 
 class UserFaBoulders(APIView):
     permission_classes = [IsAuth]
 
-    def get(self, request, user_id):
-        boulders = AppUser.objects.filter(user__id=user_id).values('user_fa_boulders')
-        serializer = AppUserSerializer(boulders, many=True)
-        return Response({'fa_boulders': serializer.data})
+    def get(self, request, id):
+        boulders = AppUser.objects.filter(user=id).values('user_fa_boulders')
+        #serializer = AppUserSerializer(boulders, many=True)
+        return Response({'fa_boulders':boulders})
 
 
 class UserFavoriteBoulders(APIView):
     permission_classes = [IsAuth]
 
-    def get(self, request, user_id):
-        boulders = AppUser.objects.filter(user__id=user_id).values('user_favorite_boulders')
-        serializer = AppUserSerializer(boulders, many=True)
-        return Response({'favorite_boulders': serializer.data})
+    def get(self, request, id):
+        boulders = AppUser.objects.filter(user=id).values('user_favorite_boulders')
+        #serializer = AppUserSerializer(boulders, many=True)
+        return Response({'favorite_boulders': boulders})
 
 
 class UserFoundBoulders(APIView):
     permission_classes = [IsAuth]
 
-    def get(self, request, user_id):
-        boulders = AppUser.objects.filter(user__id=user_id).values('user_found_boulders')
-        serializer = AppUserSerializer(boulders, many=True)
-        return Response({'found_boulders': serializer.data})
+    def get(self, request, id):
+        boulders = AppUser.objects.filter(user=id).values('user_found_boulders')
+        #serializer = AppUserSerializer(boulders, many=True)
+        return Response({'found_boulders': boulders})
