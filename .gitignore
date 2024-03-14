@@ -1,0 +1,6 @@
+data
+users/__pycache__
+users/migrations/__pycache__
+bouldering/__pycache__
+bouldering/migrations/__pycache__
+climbapi2/__pycache__
