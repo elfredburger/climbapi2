@@ -13,11 +13,6 @@ class BoulderLocation(models.Model):
         verbose_name_plural='Locations'
 
 
-
-
-
-
-
 class BoulderGrade(models.Model):
     boulder_grade=models.CharField(max_length=10,blank=False,unique=True)
 
