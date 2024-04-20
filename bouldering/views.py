@@ -112,7 +112,7 @@ class BouldersByLocationSector(generics.ListAPIView):
         return Boulder.objects.filter(boulder_location__location_name=self.kwargs['boulder_location'],
                                           boulder_sector__sector_name=self.kwargs['boulder_sector'])
 
-###################
+
 class BouldersByFinder(generics.ListAPIView):
     permission_classes = [IsAuth]
     serializer_class = BoulderSerializer

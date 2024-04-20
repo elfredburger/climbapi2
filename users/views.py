@@ -90,7 +90,6 @@ class UsersClimedBoulder(APIView):
     permission_classes = [IsAuth]
     def get(self, request, id):
         boulders = AppUser.objects.filter(user=id).values('user_complete_boulders')
-        #serializer = AppUserSerializer(boulders, many=True)
         return Response({'complete_boulders': boulders})
 
 
@@ -99,7 +98,6 @@ class UserFaBoulders(APIView):
 
     def get(self, request, id):
         boulders = AppUser.objects.filter(user=id).values('user_fa_boulders')
-        #serializer = AppUserSerializer(boulders, many=True)
         return Response({'fa_boulders':boulders})
 
 
@@ -108,7 +106,6 @@ class UserFavoriteBoulders(APIView):
 
     def get(self, request, id):
         boulders = AppUser.objects.filter(user=id).values('user_favorite_boulders')
-        #serializer = AppUserSerializer(boulders, many=True)
         return Response({'favorite_boulders': boulders})
 
 
@@ -117,5 +114,4 @@ class UserFoundBoulders(APIView):
 
     def get(self, request, id):
         boulders = AppUser.objects.filter(user=id).values('user_found_boulders')
-        #serializer = AppUserSerializer(boulders, many=True)
         return Response({'found_boulders': boulders})
